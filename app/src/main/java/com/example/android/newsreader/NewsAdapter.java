@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by Francislainy on 06/02/2017.
  */
 
-public class NewsAdapter extends ArrayAdapter<News>{
+public class NewsAdapter extends ArrayAdapter<News> {
     public NewsAdapter(Context context, ArrayList<News> newsList) {
         super(context, 0, newsList);
     }
@@ -29,11 +29,11 @@ public class NewsAdapter extends ArrayAdapter<News>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_items_layout, parent, false);
         }
 
-        TextView sectionView = (TextView) convertView.findViewById(R.id.sectionName_text_view);
-        TextView webTitleView = (TextView) convertView.findViewById(R.id.webTitle_text_view);
+        TextView titleView = (TextView) convertView.findViewById(R.id.title_text_view);
+        TextView descriptionView = (TextView) convertView.findViewById(R.id.description_text_view);
 
-        sectionView.setText(news.getSectionName());
-        webTitleView.setText(news.getWebTitle());
+        titleView.setText(news.getTitle());
+        descriptionView.setText(news.getDescription());
 
         return convertView;
     }

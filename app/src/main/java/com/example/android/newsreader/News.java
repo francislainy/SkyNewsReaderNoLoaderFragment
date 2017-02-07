@@ -5,20 +5,20 @@ package com.example.android.newsreader;
  */
 
 public class News {
-    private String sectionName;
-    private String webTitle;
+    private String title;
+    private String description;
 
-    public News(String sectionName, String webTitle) {
-        this.sectionName = sectionName;
-        this.webTitle = webTitle;
+    public News(String title, String description) {
+        this.title = title;
+        this.description = description;
     }
 
-    public String getSectionName() {
-        return sectionName;
+    public String getTitle() {
+        return title;
     }
 
-    public String getWebTitle() {
-        return webTitle;
+    public String getDescription() {
+        return description;
     }
 
 }
