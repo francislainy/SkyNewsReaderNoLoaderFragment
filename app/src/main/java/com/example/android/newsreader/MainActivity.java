@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        String url = "https://newsapi.org/v1/articles?source=sky-news&sortBy=top&apiKey=956bea4d81884c1a94dbc84f344c9e43";
+        
+        String url = "http://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=test";
 
         NewsTask newsTask = new NewsTask();
         newsTask.execute(url);
@@ -32,36 +32,26 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-
-            return HttpUtil.makeHttpRequest(urls[0]);
+          return HttpUtil.makeHttpRequest(urls[0]);
         }
 
         @Override
         protected void onPostExecute(String jsonResponse) {
 
-            if (jsonResponse == null) {
-                Log.i("MainActivity.this", "json null -----------------------------------------------------------------------");
-                return;
-            }
-
-            else {
-                Log.i("MainActivity.this", "json not nulll ********************************************************************");
-            }
-
             ArrayList<News> arrayList = new ArrayList<>();
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonResponse);
-                JSONArray jsonArray = jsonObject.getJSONArray("articles");
+                JSONObject responseObject = jsonObject.getJSONObject("response");
+                JSONArray jsonArray = responseObject.getJSONArray("results");
 
-                for (int i = 0; i < jsonArray.length(); i++) {
+                for(int i=0; i<jsonArray.length(); i++) {
                     JSONObject resultObject = jsonArray.getJSONObject(i);
-                    String title = resultObject.getString("title");
-                    String description = resultObject.getString("description");
+                    String sectionName = resultObject.getString("sectionName");
+                    String webTitle = resultObject.getString("webTitle");
+                    Log.v("MainActivity.this", webTitle);
 
-                    arrayList.add(new News(title, description));
-
-                    Log.v("MainActivity.this", title);
+                    arrayList.add(new News(sectionName, webTitle));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -72,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             listView.setAdapter(itemsAdapter);
 
         }
-
     }
 }
 
