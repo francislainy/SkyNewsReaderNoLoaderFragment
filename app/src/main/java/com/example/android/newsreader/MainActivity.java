@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        String url = "http://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=test";
+
+        String url = "https://newsapi.org/v1/articles?source=sky-news&sortBy=top&apiKey=956bea4d81884c1a94dbc84f344c9e43";
 
         NewsTask newsTask = new NewsTask();
         newsTask.execute(url);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-          return HttpUtil.makeHttpRequest(urls[0]);
+            return HttpUtil.makeHttpRequest(urls[0]);
         }
 
         @Override
@@ -42,16 +42,20 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonResponse);
-                JSONObject responseObject = jsonObject.getJSONObject("response");
-                JSONArray jsonArray = responseObject.getJSONArray("results");
+                JSONArray jsonArray = jsonObject.getJSONArray("articles");
 
-                for(int i=0; i<jsonArray.length(); i++) {
-                    JSONObject resultObject = jsonArray.getJSONObject(i);
-                    String sectionName = resultObject.getString("sectionName");
-                    String webTitle = resultObject.getString("webTitle");
-                    Log.v("MainActivity.this", webTitle);
+                if (jsonArray != null) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject resultObject = jsonArray.getJSONObject(i);
+                        String title = resultObject.getString("title");
+                        String description = resultObject.getString("description");
+                        Log.v("MainActivity.this", title);
 
-                    arrayList.add(new News(sectionName, webTitle));
+                        arrayList.add(new News(title, description));
+                    }
+                }
+                else {
+                    Log.v("MainActivity.this","Json array null");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
