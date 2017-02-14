@@ -15,6 +15,10 @@ import java.util.ArrayList;
  * Created by Francislainy on 06/02/2017.
  */
 
+
+/**
+ * Custom ArrayAdapter
+ */
 public class NewsAdapter extends ArrayAdapter<News> {
     public NewsAdapter(Context context, ArrayList<News> newsList) {
         super(context, 0, newsList);
